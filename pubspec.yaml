@@ -1,0 +1,36 @@
+name: goal_track
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_secure_storage: ^9.2.4
+  flutter_launcher_icons: ^0.13.1 
+  intl: ^0.20.2
+  provider: ^6.1.5+1
+  timezone: ^0.10.1
+  flutter_local_notifications: ^19.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+flutter_launcher_icons:
+      android: true
+      ios: true
+      image_path: "assets/goal-image.jpg"
+      # Optional: For adaptive icons on Android
+      adaptive_icon_background: "#ffffff"
+      # adaptive_icon_foreground: "assets/icon/foreground.png"
+      # Optional: For platform-specific icons
+      # image_path_android: "assets/icon/android_icon.png"
+      # image_path_ios: "assets/icon/ios_icon.png"
