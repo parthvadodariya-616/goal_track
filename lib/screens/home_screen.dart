@@ -6,7 +6,6 @@ import '../widgets/dashboard_banner.dart';
 import '../widgets/add_goal_modal.dart';
 import '../widgets/goal_tile.dart';
 import '../widgets/active_goal_timer.dart';
-import '../core/assets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -170,7 +169,6 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(Assets.emptyState, height: 200, errorBuilder: (c,o,s) => const Icon(Icons.rocket_launch, size: 100, color: Colors.grey)),
           const SizedBox(height: 20),
           const Text("No Missions Yet", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         ],
