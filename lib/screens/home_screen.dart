@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor, 
       appBar: AppBar(
-        title: const Text("FocusForge", style: TextStyle(fontWeight: FontWeight.w800)),
+        title: const Text("Goal Track", style: TextStyle(fontWeight: FontWeight.w800)),
         centerTitle: false,
         actions: [
           IconButton(
@@ -169,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Icon(Icons.rocket_launch, size: 100, color: Colors.grey),
           const SizedBox(height: 20),
           const Text("No Missions Yet", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         ],
