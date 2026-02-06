@@ -15,6 +15,7 @@ class GoalTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context, listen: false);
     final goalColor = Color(goal.colorValue);
+    final theme = Theme.of(context);
 
     return Dismissible(
       key: Key(goal.id),
@@ -35,10 +36,19 @@ class GoalTile extends StatelessWidget {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("'${deletedGoal.title}' deleted"),
+            backgroundColor: theme.brightness == Brightness.dark 
+                ? Colors.grey[900] 
+                : Colors.grey[800],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            margin: const EdgeInsets.all(15),
+            content: Text(
+              "'${deletedGoal.title}' deleted",
+              style: const TextStyle(color: Colors.white),
+            ),
             action: SnackBarAction(
               label: 'UNDO',
-              textColor: Colors.amber,
+              textColor: goalColor,
               onPressed: () => provider.restoreGoal(deletedGoal),
             ),
           ),
@@ -103,7 +113,6 @@ class GoalTile extends StatelessWidget {
                 ),
               ],
             ),
-            // PLAY BUTTON RESTORED
             trailing: !goal.isCompleted ? IconButton(
               icon: const Icon(Icons.play_circle_fill, size: 32),
               color: goalColor,

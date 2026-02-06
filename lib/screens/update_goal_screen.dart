@@ -26,7 +26,6 @@ class _UpdateGoalScreenState extends State<UpdateGoalScreen> {
     _selectedDate = widget.goal.date;
     _selectedTime = TimeOfDay.fromDateTime(widget.goal.date);
     
-    // Find color index
     Color goalColor = Color(widget.goal.colorValue);
     _selectedColorIndex = AppColors.palette.indexOf(goalColor);
     if(_selectedColorIndex == -1) _selectedColorIndex = 0;
@@ -36,6 +35,7 @@ class _UpdateGoalScreenState extends State<UpdateGoalScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final selectedColor = AppColors.palette[_selectedColorIndex];
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -83,7 +83,12 @@ class _UpdateGoalScreenState extends State<UpdateGoalScreen> {
                         firstDate: DateTime(2020),
                         lastDate: DateTime(2030),
                         builder: (ctx, child) => Theme(
-                          data: theme.copyWith(colorScheme: ColorScheme.light(primary: selectedColor)),
+                          // Matches AddGoalModal behavior
+                          data: theme.copyWith(
+                            colorScheme: isDark 
+                              ? ColorScheme.dark(primary: selectedColor, surface: theme.cardColor)
+                              : ColorScheme.light(primary: selectedColor),
+                          ),
                           child: child!,
                         )
                       );
@@ -105,12 +110,30 @@ class _UpdateGoalScreenState extends State<UpdateGoalScreen> {
                         initialTime: _selectedTime,
                         builder: (ctx, child) => Theme(
                           data: theme.copyWith(
-                            colorScheme: ColorScheme.light(primary: selectedColor, onSurface: Colors.black87),
+                            colorScheme: isDark
+                                ? ColorScheme.dark(primary: selectedColor, onSurface: Colors.white)
+                                : ColorScheme.light(primary: selectedColor, onSurface: Colors.black87),
                             timePickerTheme: TimePickerThemeData(
                               dialHandColor: selectedColor,
-                              hourMinuteTextColor: selectedColor,
-                              dayPeriodTextColor: selectedColor,
-                            )
+                              dialBackgroundColor: isDark ? Colors.grey.shade800 : Colors.grey.shade100,
+                              // Hour/Minute box background
+                              hourMinuteColor: WidgetStateColor.resolveWith((states) =>
+                                  states.contains(WidgetState.selected) 
+                                      ? selectedColor 
+                                      : (isDark ? Colors.grey.shade800 : Colors.grey.shade200)),
+                              // Hour/Minute text color
+                              hourMinuteTextColor: WidgetStateColor.resolveWith((states) =>
+                                  states.contains(WidgetState.selected) 
+                                      ? Colors.white 
+                                      : (isDark ? Colors.white70 : Colors.black87)),
+                              // AM/PM selector
+                              dayPeriodColor: WidgetStateColor.resolveWith((states) =>
+                                  states.contains(WidgetState.selected) ? selectedColor : Colors.transparent),
+                              dayPeriodTextColor: WidgetStateColor.resolveWith((states) =>
+                                  states.contains(WidgetState.selected) 
+                                      ? Colors.white 
+                                      : (isDark ? Colors.white70 : Colors.black87)),
+                            ),
                           ),
                           child: child!,
                         )
@@ -193,7 +216,7 @@ class _UpdateGoalScreenState extends State<UpdateGoalScreen> {
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade200),
+          border: Border.all(color: Colors.grey.shade300), // Slightly more visible border
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,7 +227,7 @@ class _UpdateGoalScreenState extends State<UpdateGoalScreen> {
               children: [
                 Icon(icon, size: 18, color: color),
                 const SizedBox(width: 8),
-                Text(text, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
+                Text(text, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)), // Adjusted size to prevent overflow
               ],
             ),
           ],
